@@ -25,6 +25,11 @@ run/main_scene="res://gui/level_select_screen.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Server="*res://server/Server.gd"
+GameData="*res://server/GameData.gd"
+
 [input]
 
 click={

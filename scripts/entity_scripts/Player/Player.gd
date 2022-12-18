@@ -25,6 +25,7 @@ func _ready():
 	overlay.add_value("Stamina", self, "current_stamina", false)
 	overlay.add_value("Mana", self, "current_mana", false)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	GameData.InitializePlayerValues()
 
 
 ## This function handles the mouse click events and spring arm movement
@@ -40,6 +41,10 @@ func _unhandled_input(event):
 		rotate_y(deg_to_rad(-event.relative.x * mouse_sensitivity))
 		spring_arm.rotate_x(deg_to_rad(-event.relative.y * mouse_sensitivity))
 		spring_arm.rotation.x = clamp(spring_arm.rotation.x, deg_to_rad(-75), deg_to_rad(75))
+	
+	if Input.is_action_just_pressed("shift"):
+		print("dash executing from player")
+		dash.execute(self, get_direction(get_input_vector()), GameData.skill_values["dash_speed"])
 
 
 ## This is the physics process function that runs each frame
@@ -54,7 +59,6 @@ func _physics_process(delta):
 	jump()
 	apply_controller_rotation()
 	spring_arm.rotation.x = clamp(spring_arm.rotation.x, deg_to_rad(-75), deg_to_rad(75))
-	dashing = dash.execute(self, direction)
 	regen_health(delta)
 	regen_stamina(delta)
 	regen_mana(delta)
