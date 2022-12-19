@@ -9,7 +9,8 @@ var serverID = 1
 
 
 func _ready():
-	ConnectToServer()
+	#ConnectToServer()
+	pass
 	
 
 func ConnectToServer():
@@ -19,12 +20,6 @@ func ConnectToServer():
 	
 	network.peer_disconnected.connect(_OnConnectionFailed)
 	network.peer_connected.connect(_OnConnectionSucceeded)
-	#print(network.get_connection_status())
-	
-#func _process(delta):
-#	if network.get_connection_status() == 2:
-#		print("connected")
-	
 	
 func _OnConnectionFailed(server_id):
 	print("Failed to connect")

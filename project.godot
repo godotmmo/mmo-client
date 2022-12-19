@@ -29,6 +29,7 @@ config/icon="res://icon.svg"
 
 Server="*res://server/Server.gd"
 GameData="*res://server/GameData.gd"
+Gateway="*res://server/Gateway.gd"
 
 [input]
 

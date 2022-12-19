@@ -1,17 +1,5 @@
 extends Entity
 
-#@export var max_speed = 10
-#@export var acceleration = 70
-#@export var friction = 10
-#@export var air_friction = 10
-#@export var gravity = -40
-#@export var jump_impulse = 20
-#@export var mouse_sensitivity = .1
-#@export var controller_sensitivity = 3
-#@export var rotation_speed = 25
-
-#@onready var spring_arm = $SpringArm3D
-#@onready var pivot = $Pivot
 
 var player_velocity = Vector3.ZERO
 var snap_vector = Vector3.ZERO
@@ -25,7 +13,7 @@ func _ready():
 	overlay.add_value("Stamina", self, "current_stamina", false)
 	overlay.add_value("Mana", self, "current_mana", false)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	GameData.InitializePlayerValues()
+	#GameData.InitializePlayerValues()
 
 
 ## This function handles the mouse click events and spring arm movement
@@ -43,7 +31,6 @@ func _unhandled_input(event):
 		spring_arm.rotation.x = clamp(spring_arm.rotation.x, deg_to_rad(-75), deg_to_rad(75))
 	
 	if Input.is_action_just_pressed("shift"):
-		print("dash executing from player")
 		dash.execute(self, get_direction(get_input_vector()), GameData.skill_values["dash_speed"])
 
 
