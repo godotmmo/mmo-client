@@ -9,14 +9,13 @@ var serverID = 1
 
 
 func _ready():
-	#ConnectToServer()
 	pass
 	
 
 func ConnectToServer():
 	network.create_client(ip, port)
 	multiplayer.set_multiplayer_peer(network)
-	print("Set multi peer")
+	print("Set multi peer for server")
 	
 	network.peer_disconnected.connect(_OnConnectionFailed)
 	network.peer_connected.connect(_OnConnectionSucceeded)

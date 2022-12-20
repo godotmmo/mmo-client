@@ -67,6 +67,7 @@ func ReturnLoginRequest(result):
 	if result == true:
 		Server.ConnectToServer()
 		get_node(".").queue_free()
+		get_tree().change_scene_to_file("res://gui/level_select_screen.tscn")
 	else:
 		print("Please provide a correct username and password")
 		print(get_node("."))

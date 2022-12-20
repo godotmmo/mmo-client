@@ -21,7 +21,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Godot Game"
-run/main_scene="res://gui/level_select_screen.tscn"
+run/main_scene="res://gui/login/login.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
 

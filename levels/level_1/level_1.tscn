@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://e5ykmegi3x63"]
+[gd_scene load_steps=8 format=3 uid="uid://e5ykmegi3x63"]
 
 [ext_resource type="PackedScene" uid="uid://bqhowbbgirkl6" path="res://scripts/entity_scripts/Player/Player.tscn" id="2_6ae6e"]
 [ext_resource type="Material" uid="uid://bcexwxg8cnger" path="res://textures/test_grid_dark.tres" id="2_swmnv"]
 [ext_resource type="PackedScene" uid="uid://dts76apty278w" path="res://utilities/pause_menu/pause_menu.tscn" id="3_a8twt"]
 [ext_resource type="PackedScene" uid="uid://colktv10wis3u" path="res://scripts/object_scripts/portal/Portal.tscn" id="4_6igiq"]
-[ext_resource type="PackedScene" uid="uid://bewqpd55p1cef" path="res://gui/login/login.tscn" id="5_xj3jo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_es0du"]
 sky_top_color = Color(0.439216, 0.54902, 0.843137, 1)
@@ -131,9 +130,3 @@ target_scene = "res://levels/level_3/level_3.tscn"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_p2565")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="login" parent="CanvasLayer" instance=ExtResource("5_xj3jo")]
-grow_horizontal = 2
-grow_vertical = 2
