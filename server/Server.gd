@@ -1,11 +1,12 @@
 extends Node
 
 var network = ENetMultiplayerPeer.new()
-var ip = "godotmmo.playit.gg"
+var ip: String = "godotmmo.playit.gg"
 #var ip = "127.0.0.1"
 
-var port = 43578
-var serverID = 1
+var port: int = 43578
+var serverID: int = 1
+var token: String = ""
 
 
 func _ready():
@@ -36,6 +37,23 @@ func FetchSkillData(skill_name, requester):
 @rpc
 func ReturnSkillData(skill_data, skill_name, requester):
 	instance_from_id(requester).SetAbilityValue(skill_data, skill_name)
+	
+
+@rpc
+func FetchToken():
+	rpc_id(1, "ReturnToken", token)
+	
+	
+@rpc
+func ReturnTokenVerificationResults(result):
+	if result == true:
+		get_node(".").queue_free()
+		get_tree().change_scene_to_file("res://gui/level_select_screen.tscn")
+		print("Successful token verification")
+	else:
+		print("Login failed. Please try again.")
+		#enable the login button
+		get_node("/root/login_screen/NinePatchRect/HBoxContainer/VBoxContainer/LoginButton").disabled = false
 
 
 

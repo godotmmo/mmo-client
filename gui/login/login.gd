@@ -9,13 +9,12 @@ func _on_LoginButton_pressed():
 	pass
 
 
-
 func _on_login_button_button_down():
 	if username_input.text == "" or userpassword_input.text == "":
 		print("Please provide valid username and password")
 	else:
 		login_button.disabled = true
-		var username = username_input.get_text()
-		var password = userpassword_input.get_text()
+		var username: String = username_input.get_text()
+		var password: String = userpassword_input.get_text()
 		print("Attempting to login")
 		Gateway.ConnectToServer(username, password)

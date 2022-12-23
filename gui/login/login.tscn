@@ -8,9 +8,12 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_vtd00")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -25,6 +28,7 @@ grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="NinePatchRect"]
 z_index = -1
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -33,6 +37,7 @@ grow_vertical = 2
 color = Color(0.164706, 0.513726, 1, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect"]
+layout_mode = 1
 anchors_preset = 13
 anchor_left = 0.5
 anchor_right = 0.5
@@ -44,72 +49,52 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/HBoxContainer"]
 custom_minimum_size = Vector2(350, 0)
-offset_right = 350.0
-offset_bottom = 525.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 
 [node name="MarginContainer3" type="MarginContainer" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 60)
-offset_right = 350.0
-offset_bottom = 60.0
+layout_mode = 2
 
 [node name="Title" type="Label" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
-offset_top = 64.0
-offset_right = 350.0
-offset_bottom = 122.0
+layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Login Screen"
 horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 70)
-offset_top = 126.0
-offset_right = 350.0
-offset_bottom = 196.0
+layout_mode = 2
 
 [node name="UsernameTitle" type="Label" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
-offset_top = 200.0
-offset_right = 350.0
-offset_bottom = 226.0
+layout_mode = 2
 text = "Username:"
 
 [node name="Username" type="LineEdit" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
-offset_top = 230.0
-offset_right = 350.0
-offset_bottom = 261.0
+layout_mode = 2
 size_flags_stretch_ratio = 0.65
 
 [node name="PasswordTitle" type="Label" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
-offset_top = 265.0
-offset_right = 350.0
-offset_bottom = 291.0
+layout_mode = 2
 text = "Password:"
 
 [node name="Password" type="LineEdit" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
-offset_top = 295.0
-offset_right = 350.0
-offset_bottom = 326.0
+layout_mode = 2
 secret = true
 
 [node name="MarginContainer2" type="MarginContainer" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 330.0
-offset_right = 350.0
-offset_bottom = 360.0
+layout_mode = 2
 
 [node name="LoginButton" type="TextureButton" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(220, 55)
-offset_left = 65.0
-offset_top = 364.0
-offset_right = 285.0
-offset_bottom = 419.0
+layout_mode = 2
 size_flags_horizontal = 4
 texture_pressed = ExtResource("2_fm2lf")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="NinePatchRect/HBoxContainer/VBoxContainer/LoginButton"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -123,6 +108,7 @@ vertical_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="NinePatchRect/HBoxContainer/VBoxContainer/LoginButton"]
 z_index = -1
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -133,15 +119,13 @@ color = Color(0, 0, 0, 1)
 
 [node name="CreateUsernameButton" type="TextureButton" parent="NinePatchRect/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(220, 55)
-offset_left = 65.0
-offset_top = 423.0
-offset_right = 285.0
-offset_bottom = 478.0
+layout_mode = 2
 size_flags_horizontal = 4
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="NinePatchRect/HBoxContainer/VBoxContainer/CreateUsernameButton"]
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -155,6 +139,7 @@ vertical_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="NinePatchRect/HBoxContainer/VBoxContainer/CreateUsernameButton"]
 z_index = -1
+layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
