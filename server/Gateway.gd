@@ -10,7 +10,7 @@ var username: String
 var password: String
 var peer_id
 
-var cert = load("res://resources/certification/X509Certificate.crt")
+var cert = load("res://resources/certification/X509_Certificate.crt")
 
 
 
@@ -29,10 +29,10 @@ func ConnectToServer(_username, _password):
 	username = _username
 	password = _password
 	
-	gateway_client.dtls_client_setup(cert, ip, false)
-	
 	# This defines our 'network' as a client peer
 	gateway_client.create_client(ip, port)
+	
+	gateway_client.host.dtls_client_setup(cert, ip, false)
 	
 	# This creates a new multiplayer api instance on the current path and allows
 	# for a secondary connection
