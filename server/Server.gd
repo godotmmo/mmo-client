@@ -60,7 +60,7 @@ func ReturnToken():
 	pass
 	
 @rpc
-func ReturnTokenVerificationResults(result):
+func ReturnTokenVerificationResults(_player_id, result):
 	if result == true:
 		get_node(".").queue_free()
 		get_tree().change_scene_to_file("res://gui/level_select_screen.tscn")

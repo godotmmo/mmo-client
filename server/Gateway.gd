@@ -1,6 +1,7 @@
 extends Node
 
 var gateway_client = ENetMultiplayerPeer.new()
+var gateway_api: MultiplayerAPI = MultiplayerAPI.create_default_interface()
 
 var ip: String = "december-antique.at.ply.gg"
 var port: int = 44122
@@ -8,7 +9,9 @@ var port: int = 44122
 var username: String
 var password: String
 var peer_id
-var gateway_api: MultiplayerAPI = MultiplayerAPI.create_default_interface()
+
+var cert = load("res://resources/certification/X509Certificate.crt")
+
 
 
 func _ready():
@@ -25,6 +28,8 @@ func _process(_delta):
 func ConnectToServer(_username, _password):
 	username = _username
 	password = _password
+	
+	gateway_client.dtls_client_setup(cert, ip, false)
 	
 	# This defines our 'network' as a client peer
 	gateway_client.create_client(ip, port)
