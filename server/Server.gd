@@ -1,6 +1,6 @@
 extends Node
 
-var network = ENetMultiplayerPeer.new()
+var server_client = ENetMultiplayerPeer.new()
 var ip: String = "godotmmo.playit.gg"
 #var ip = "127.0.0.1"
 
@@ -14,14 +14,14 @@ func _ready():
 	
 
 func ConnectToServer():
-	network.create_client(ip, port)
-	multiplayer.set_multiplayer_peer(network)
+	server_client.create_client(ip, port)
+	multiplayer.set_multiplayer_peer(server_client)
 	print("Set multi peer for server")
 	
-	network.peer_disconnected.connect(_OnConnectionFailed)
-	network.peer_connected.connect(_OnConnectionSucceeded)
+	server_client.peer_disconnected.connect(_OnConnectionFailed)
+	server_client.peer_connected.connect(_OnConnectionSucceeded)
 	
-func _OnConnectionFailed(server_id):
+func _OnConnectionFailed(_server_id):
 	print("Failed to connect")
 	
 	
@@ -40,9 +40,24 @@ func ReturnSkillData(skill_data, skill_name, requester):
 	
 
 @rpc
+func FetchPlayerData():
+	pass
+	
+	
+@rpc
+func ReturnPlayerData():
+	pass
+
+
+@rpc
 func FetchToken():
+	print("Fetching token")
 	rpc_id(1, "ReturnToken", token)
 	
+	
+@rpc
+func ReturnToken():
+	pass
 	
 @rpc
 func ReturnTokenVerificationResults(result):
