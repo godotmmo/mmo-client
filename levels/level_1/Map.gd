@@ -10,7 +10,7 @@ func _ready():
 func SpawnNewPlayer(player_id: int, spawn_position: Vector3):
 	# check to make sure we are not double spawning the local player
 	# check to make sure we are not double spawning other players
-	if multiplayer.get_unique_id() != player_id and not get_node("..Map/OtherPlayers").has_node(str(player_id)):
+	if multiplayer.get_unique_id() != player_id and not get_node("../Map/OtherPlayers").has_node(str(player_id)):
 		print("Map node spawing new player: " + str(player_id))
 		var new_player = player_spawn.instantiate()
 		new_player.position = spawn_position

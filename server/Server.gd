@@ -112,7 +112,9 @@ func ReceivePlayerState(_player_state):
 	
 @rpc(call_remote, unreliable)
 func ReceiveWorldState(world_state):
-	get_node("../Map").UpdateWorldState(world_state)
+		if get_node("../Map"):
+			get_node("../Map").UpdateWorldState(world_state)
+
 	
 
 @rpc
