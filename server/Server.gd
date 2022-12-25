@@ -101,20 +101,24 @@ func DespawnPlayer(_player_id):
 	
 @rpc(call_local, unreliable)
 func SendPlayerState(player_state):
-	rpc_id(1, "RecievePlayerState", player_state)
+	rpc_id(1, "ReceivePlayerState", player_state)
 	
 	
 @rpc
-func RecievePlayerState(_player_state):
+func ReceivePlayerState(_player_state):
 	# for rpc checksum
 	pass
 	
 	
 @rpc(call_remote, unreliable)
-func RecieveWorldState(world_state):
+func ReceiveWorldState(world_state):
 	get_node("../Map").UpdateWorldState(world_state)
 	
 
+@rpc
+func SendWorldState(_world_state):
+	# for rpc checksum
+	pass
 
 	
 
