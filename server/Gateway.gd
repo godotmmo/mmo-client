@@ -90,7 +90,7 @@ func ReturnLoginRequest(result, token):
 		print("Please provide a correct username and password")
 		print(get_node("."))
 		get_node("/root/login_screen/Login/HBoxContainer/VBoxContainer/LoginButton").disabled = false
-		get_node("/root/login_screen/Login/HBoxContainer/VBoxContainer/CreateUsernameButton").diabled = false
+		get_node("/root/login_screen/Login/HBoxContainer/VBoxContainer/CreateUsernameButton").disabled = false
 	multiplayer.disconnect("connection_failed", _OnConnectionFailed)
 	gateway_client.disconnect("peer_disconnected", _OnConnectionDisconnected)
 	gateway_api.disconnect("connected_to_server", _OnConnectionSucceeded)
@@ -114,6 +114,7 @@ func ReturnCreateAccountRequest(results, message):
 	if results == true:
 		print("Account created")
 		get_node("/root/login_screen")._on_back_pressed()
+		get_node("/root/login_screen/CreateAccount/HBoxContainer/VBoxContainer/Confirm").disabled = false
 		get_node("/root/login_screen/CreateAccount/HBoxContainer/VBoxContainer/Back").disabled = false
 	else:
 		if message == 1:
