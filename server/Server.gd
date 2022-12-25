@@ -67,7 +67,7 @@ func ReturnToken(_token):
 func ReturnTokenVerificationResults(_player_id, result):
 	if result == true:
 		#get_node(".").queue_free()
-		get_tree().change_scene_to_file("res://gui/level_select_screen.tscn")
+		get_tree().change_scene_to_file("res://levels/level_1/level_1.tscn")
 		print("Successful token verification")
 	else:
 		print("Login failed. Please try again.")
@@ -80,9 +80,9 @@ func SpawnNewPlayer(_player_id, _spawn_position):
 	# check to see if the player id passed is the local player
 	if multiplayer.get_unique_id() != _player_id:
 		# make sure the Map is loaded in, otherwise add to the player queue
-		if get_node("/root/Map"):
+		if get_node("../Map"):
 			print("rpc spawn player reached and map loaded")
-			get_node("/root/Map").SpawnNewPlayer(_player_id, _spawn_position)
+			get_node("../Map").SpawnNewPlayer(_player_id, _spawn_position)
 		else:
 			print("appending player to wait-list")
 			players_waiting_to_spawn.values().append({_player_id: _spawn_position})

@@ -8,11 +8,11 @@ func _ready():
 
 func SpawnNewPlayer(player_id, spawn_position):
 	print("Map node spawing new player: " + str(player_id))
-	var new_player = player_spawn.instance()
-	new_player.postiion = spawn_position
+	var new_player = player_spawn.instantiate()
+	new_player.position = spawn_position
 	new_player.name = str(player_id)
-	get_node("/root/Map/OtherPlayer").add_child(new_player)
+	get_node("/root/Map/OtherPlayers").add_child(new_player)
 		
 		
 func DespawnPlayer(player_id):
-	get_node("/root/Map/OtherPlayer/" + str(player_id)).queue_free()
+	get_node("/root/Map/OtherPlayers/" + str(player_id)).queue_free()

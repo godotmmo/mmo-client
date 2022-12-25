@@ -3,20 +3,20 @@
 [ext_resource type="Script" path="res://scripts/entity_scripts/Player/PlayerTemplate.gd" id="1_g7ior"]
 [ext_resource type="PackedScene" uid="uid://dts76apty278w" path="res://utilities/pause_menu/pause_menu.tscn" id="2_3oxsp"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_70vhj"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q6h50"]
 albedo_color = Color(0.0392157, 0.152941, 0.0705882, 1)
 
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_wwbq8"]
-material = SubResource("StandardMaterial3D_70vhj")
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_q5rkg"]
+material = SubResource("StandardMaterial3D_q6h50")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1vluc"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_pkl4l"]
 albedo_color = Color(0.737255, 0.466667, 0.0862745, 1)
 
-[sub_resource type="BoxMesh" id="BoxMesh_r3rak"]
-material = SubResource("StandardMaterial3D_1vluc")
+[sub_resource type="BoxMesh" id="BoxMesh_u8iin"]
+material = SubResource("StandardMaterial3D_pkl4l")
 size = Vector3(0.2, 0.2, 1)
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_bd6ds"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_xri0b"]
 
 [node name="Player" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.730326, 0)
@@ -28,17 +28,17 @@ script = ExtResource("1_g7ior")
 
 [node name="Skin" type="MeshInstance3D" parent="Pivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-mesh = SubResource("CapsuleMesh_wwbq8")
+mesh = SubResource("CapsuleMesh_q5rkg")
 skeleton = NodePath("../..")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.59125, -0.621951)
-mesh = SubResource("BoxMesh_r3rak")
+mesh = SubResource("BoxMesh_u8iin")
 skeleton = NodePath("../..")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("CapsuleShape3D_bd6ds")
+shape = SubResource("CapsuleShape3D_xri0b")
 
 [node name="Player@PauseMenu" parent="." instance=ExtResource("2_3oxsp")]
 script = null
