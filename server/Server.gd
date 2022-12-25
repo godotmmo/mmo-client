@@ -9,6 +9,7 @@ var serverID: int = 1
 var token: String = ""
 var players_waiting_to_spawn: Dictionary = {}
 
+
 func _ready():
 	pass
 	
@@ -17,6 +18,7 @@ func MapNodeReady():
 	for _player_id in players_waiting_to_spawn.keys():
 		SpawnNewPlayer(_player_id, players_waiting_to_spawn[_player_id])
 
+
 func ConnectToServer():
 	server_client.create_client(ip, port)
 	multiplayer.set_multiplayer_peer(server_client)
@@ -24,6 +26,7 @@ func ConnectToServer():
 	
 	server_client.peer_disconnected.connect(_OnConnectionFailed)
 	server_client.peer_connected.connect(_OnConnectionSucceeded)
+	
 	
 func _OnConnectionFailed(_server_id):
 	print("Failed to connect")
@@ -63,6 +66,7 @@ func FetchToken(_player_id):
 func ReturnToken(_token):
 	pass
 	
+	
 @rpc
 func ReturnTokenVerificationResults(_player_id, result):
 	if result == true:
@@ -89,10 +93,26 @@ func SpawnNewPlayer(_player_id, _spawn_position):
 	else:
 		print("Cannot run spawn player for local player")
 	
+	
 @rpc
 func DespawnPlayer(_player_id):
 	get_node("/root/Map").DespawnPlayer(_player_id)
 	
+	
+@rpc(call_local, unreliable)
+func SendPlayerState(player_state):
+	rpc_id(1, "RecievePlayerState", player_state)
+	
+	
+@rpc
+func RecievePlayerState(_player_state):
+	# for rpc checksum
+	pass
+	
+	
+@rpc(call_remote, unreliable)
+func RecieveWorldState(world_state):
+	get_node("../Map").UpdateWorldState(world_state)
 	
 
 
