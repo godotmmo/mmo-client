@@ -8,12 +8,14 @@ const interpolation_offset = 100
 
 func _ready():
 	Server.MapNodeReady()
-	
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	var render_time = Time.get_unix_time_from_system() - interpolation_offset
 	if world_state_buffer.size() > 1:
+		#print(world_state_buffer.size())
+		#print(render_time, "|", world_state_buffer[1].T)
 		while world_state_buffer.size() > 2 and render_time > world_state_buffer[1].T:
+			#print("cleaning buffer")
 			world_state_buffer.remove_at(0)
 		var interpolation_factor = float(
 			render_time - world_state_buffer[0]["T"]) / float(
@@ -27,6 +29,7 @@ func _physics_process(delta):
 				continue
 			if get_node("../Map/OtherPlayers").has_node(str(player)):
 				var new_position = lerp(world_state_buffer[0][player]["P"], world_state_buffer[1][player]["P"], interpolation_factor)
+				#print("moving player [", str(player), "] to position [", str(new_position), "]")
 				get_node("../Map/OtherPlayers/" + str(player)).MovePlayer(new_position)
 			else:
 				print("Spawning player")
@@ -50,7 +53,8 @@ func DespawnPlayer(player_id: String):
 
 
 func UpdateWorldState(world_state: Dictionary):
-	if world_state["T"] > last_world_state:
+	if float(world_state["T"] / 1000.0) > last_world_state:
+		world_state["T"] = float(world_state["T"] / 1000)
 		last_world_state = world_state["T"]
 		world_state_buffer.append(world_state)
 		
