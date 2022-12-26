@@ -3,7 +3,8 @@ extends Node3D
 var player_spawn = preload("res://scripts/entity_scripts/Player/PlayerTemplate.tscn")
 var last_world_state = 0
 var world_state_buffer = []
-const interpolation_offset = 100
+const interpolation_offset = .01
+var interpolation_factor: float
 
 
 func _ready():
@@ -13,28 +14,42 @@ func _physics_process(_delta):
 	var render_time = Time.get_unix_time_from_system() - interpolation_offset
 	if world_state_buffer.size() > 1:
 		#print(world_state_buffer.size())
+		#if world_state_buffer.size() > 3:
+		#	print(world_state_buffer[0], world_state_buffer[1], world_state_buffer[2])
 		#print(render_time, "|", world_state_buffer[1].T)
-		while world_state_buffer.size() > 2 and render_time > world_state_buffer[1].T:
+		while world_state_buffer.size() > 2 and render_time > world_state_buffer[2].T:
 			#print("cleaning buffer")
 			world_state_buffer.remove_at(0)
-		var interpolation_factor = float(
-			render_time - world_state_buffer[0]["T"]) / float(
-				world_state_buffer[1]["T"] - world_state_buffer[0]["T"])
-		for player in world_state_buffer[1].keys():
-			if str(player) == "T":
-				continue
-			if player == multiplayer.get_unique_id():
-				continue
-			if not world_state_buffer[0].has(player):
-				continue
-			if get_node("../Map/OtherPlayers").has_node(str(player)):
-				var new_position = lerp(world_state_buffer[0][player]["P"], world_state_buffer[1][player]["P"], interpolation_factor)
-				#print("moving player [", str(player), "] to position [", str(new_position), "]")
-				get_node("../Map/OtherPlayers/" + str(player)).MovePlayer(new_position)
-			else:
-				print("Spawning player")
-				SpawnNewPlayer(player, world_state_buffer[1][player]["P"])
-				
+		if world_state_buffer.size() > 2: # We have a future world state | Interpolate
+			var interpolation_factor = float(render_time - world_state_buffer[1]["T"]) / float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
+			for player in world_state_buffer[2].keys():
+				if str(player) == "T":
+					continue
+				if player == multiplayer.get_unique_id():
+					continue
+				if not world_state_buffer[1].has(player):
+					continue
+				if get_node("../Map/OtherPlayers").has_node(str(player)):
+					#print(interpolation_factor)
+					var new_position = world_state_buffer[1][player]["P"].lerp(world_state_buffer[2][player]["P"], interpolation_factor)
+					#print("moving player [", str(player), "] to position [", str(new_position), "]")
+					get_node("../Map/OtherPlayers/" + str(player)).MovePlayer(new_position)
+				else:
+					print("Spawning player")
+					SpawnNewPlayer(player, world_state_buffer[2][player]["P"])
+		elif render_time > world_state_buffer[1].T: # There is no future world state | Extrapolate
+			var extrapolation_factor = float(render_time - world_state_buffer[0]["T"]) / float(world_state_buffer[1]["T"] - world_state_buffer[0]["T"]) - 1.00
+			for player in world_state_buffer[1].keys():
+				if str(player) == "T":
+					continue
+				if player == multiplayer.get_unique_id():
+					continue
+				if not world_state_buffer[0].has(player):
+					continue
+				if get_node("../Map/OtherPlayers").has_node(str(player)):
+					var position_delta = (world_state_buffer[1][player]["P"] - world_state_buffer[0][player]["P"])
+					var new_position = world_state_buffer[1][player]["P"] + (position_delta * extrapolation_factor)
+					get_node("../Map/OtherPlayers/" + str(player)).MovePlayer(new_position)
 
 func SpawnNewPlayer(player_id: int, spawn_position: Vector3):
 	# check to make sure we are not double spawning the local player
@@ -49,6 +64,7 @@ func SpawnNewPlayer(player_id: int, spawn_position: Vector3):
 		
 		
 func DespawnPlayer(player_id: String):
+	await get_tree().create_timer(.2).timeout
 	get_node("/root/Map/OtherPlayers/" + str(player_id)).queue_free()
 
 
