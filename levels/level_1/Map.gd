@@ -3,7 +3,7 @@ extends Node3D
 var player_spawn = preload("res://scripts/entity_scripts/Player/PlayerTemplate.tscn")
 var last_world_state = 0
 var world_state_buffer = []
-const interpolation_offset = 100
+const interpolation_offset: int = 100
 var interpolation_factor: float
 
 
@@ -11,7 +11,7 @@ func _ready():
 	Server.MapNodeReady()
 
 func _physics_process(_delta):
-	var render_time = int(Time.get_unix_time_from_system() * 1000) - interpolation_offset
+	var render_time = Server.client_clock_msecs - interpolation_offset
 	if world_state_buffer.size() > 1:
 		#print(world_state_buffer.size())
 		#if world_state_buffer.size() > 3:
@@ -21,7 +21,7 @@ func _physics_process(_delta):
 			#print("cleaning buffer")
 			world_state_buffer.remove_at(0)
 		if world_state_buffer.size() > 2: # We have a future world state | Interpolate
-			var interpolation_factor = float(render_time - world_state_buffer[1]["T"]) / float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
+			interpolation_factor = float(render_time - world_state_buffer[1]["T"]) / float(world_state_buffer[2]["T"] - world_state_buffer[1]["T"])
 			for player in world_state_buffer[2].keys():
 				if str(player) == "T":
 					continue
@@ -81,7 +81,6 @@ func DespawnPlayer(player_id: String):
 
 func UpdateWorldState(world_state: Dictionary):
 	if world_state["T"] > last_world_state:
-		#world_state["T"] = float(world_state["T"] / 1000)
 		last_world_state = world_state["T"]
 		world_state_buffer.append(world_state)
 		

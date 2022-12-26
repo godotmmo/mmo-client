@@ -8,11 +8,20 @@ var port: int = 43578
 var serverID: int = 1
 var token: String = ""
 var players_waiting_to_spawn: Dictionary = {}
+var latency_msecs: int = 0
+var client_clock_msecs: int = 0
+var delta_latency_msecs: int = 0
+var decimal_collector: float = 0
+var latency_array: Array = []
 
 
-func _ready():
-	pass
-	
+func _physics_process(delta):
+	client_clock_msecs += int(delta*1000) + delta_latency_msecs
+	delta_latency_msecs = 0
+	decimal_collector += (delta * 1000) - int(delta * 1000)
+	if decimal_collector >= 1.00:
+		client_clock_msecs += 1
+		decimal_collector -= 1
 
 func MapNodeReady():
 	for _player_id in players_waiting_to_spawn.keys():
@@ -31,10 +40,58 @@ func ConnectToServer():
 func _OnConnectionFailed(_server_id):
 	print("Failed to connect")
 	
-	
+
 func _OnConnectionSucceeded(server_id):
 	print("Succesfully connected to server id: %d" % server_id)
+	FetchServerTime()
 	
+	
+func _DetermineLatency():
+	DetermineLatency()
+
+	
+@rpc(call_local)
+func FetchServerTime():
+	while not multiplayer.get_peers().has(1):
+		await get_tree().create_timer(1).timeout
+	rpc_id(1, "FetchServerTime", int(Time.get_unix_time_from_system() * 1000))
+	var timer: Timer = Timer.new()
+	timer.wait_time = 0.5
+	timer.autostart = true
+	timer.timeout.connect(_DetermineLatency)
+	get_parent().add_child(timer)
+
+
+@rpc(call_local)
+func DetermineLatency():
+	rpc_id(1, "DetermineLatency", int(Time.get_unix_time_from_system() * 1000))
+	
+
+@rpc(call_remote)
+func ReturnLatency(client_time_msecs: int):
+	latency_array.append((int(Time.get_unix_time_from_system() * 1000) - client_time_msecs) / 2)
+	if latency_array.size() == 9:
+		var total_latency: int = 0
+		latency_array.sort()
+		var mid_point: int = latency_array[4]
+		for i in range(latency_array.size()-1, -1, -1):
+			if latency_array[i] > (2 * mid_point) and latency_array[i] > 20:
+				latency_array.remove_at(i)
+			else:
+				total_latency += latency_array[i]
+		delta_latency_msecs = (total_latency / latency_array.size()) - latency_msecs
+		latency_msecs = total_latency / latency_array.size()
+		print("New latency ", latency_msecs)
+		print("Delta latency ", delta_latency_msecs)
+		latency_array.clear()
+
+
+@rpc(call_remote)
+func ReturnServerTime(server_time_msecs, client_time_msecs):
+	print("Return Server Time called")
+	latency_msecs = (int(Time.get_unix_time_from_system() * 1000) - client_time_msecs) / 2
+	client_clock_msecs = int(server_time_msecs + latency_msecs)
+
 
 @rpc(call_local)
 func FetchSkillData(skill_name, requester):
@@ -115,7 +172,6 @@ func ReceiveWorldState(world_state):
 		if get_node("/root").has_node("Map"):
 			get_node("../Map").UpdateWorldState(world_state)
 
-	
 
 @rpc
 func SendWorldState(_world_state):
