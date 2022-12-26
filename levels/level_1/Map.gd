@@ -2,10 +2,36 @@ extends Node3D
 
 var player_spawn = preload("res://scripts/entity_scripts/Player/PlayerTemplate.tscn")
 var last_world_state = 0
+var world_state_buffer = []
+const interpolation_offset = 100
+
 
 func _ready():
 	Server.MapNodeReady()
+	
 
+func _physics_process(delta):
+	var render_time = Time.get_unix_time_from_system() - interpolation_offset
+	if world_state_buffer.size() > 1:
+		while world_state_buffer.size() > 2 and render_time > world_state_buffer[1].T:
+			world_state_buffer.remove_at(0)
+		var interpolation_factor = float(
+			render_time - world_state_buffer[0]["T"]) / float(
+				world_state_buffer[1]["T"] - world_state_buffer[0]["T"])
+		for player in world_state_buffer[1].keys():
+			if str(player) == "T":
+				continue
+			if player == multiplayer.get_unique_id():
+				continue
+			if not world_state_buffer[0].has(player):
+				continue
+			if get_node("../Map/OtherPlayers").has_node(str(player)):
+				var new_position = lerp(world_state_buffer[0][player]["P"], world_state_buffer[1][player]["P"], interpolation_factor)
+				get_node("../Map/OtherPlayers/" + str(player)).MovePlayer(new_position)
+			else:
+				print("Spawning player")
+				SpawnNewPlayer(player, world_state_buffer[1][player]["P"])
+				
 
 func SpawnNewPlayer(player_id: int, spawn_position: Vector3):
 	# check to make sure we are not double spawning the local player
@@ -19,22 +45,12 @@ func SpawnNewPlayer(player_id: int, spawn_position: Vector3):
 	
 		
 		
-func DespawnPlayer(player_id: int):
+func DespawnPlayer(player_id: String):
 	get_node("/root/Map/OtherPlayers/" + str(player_id)).queue_free()
 
 
 func UpdateWorldState(world_state: Dictionary):
-	# buffer
-	# interpolation
-	# extrapolation
-	# rubber banding
 	if world_state["T"] > last_world_state:
 		last_world_state = world_state["T"]
-		world_state.erase("T") # will be needed when implementing interpolation and extrapolation
-		world_state.erase(multiplayer.get_unique_id())
-		for player in world_state.keys():
-			if get_node("../Map/OtherPlayers").has_node(str(player)):
-				get_node("../Map/OtherPlayers/" + str(player)).MovePlayer(world_state[player]["P"])
-			else:
-				print("Spawning player")
-				SpawnNewPlayer(player, world_state[player]["P"])
+		world_state_buffer.append(world_state)
+		
