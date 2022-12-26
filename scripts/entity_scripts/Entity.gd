@@ -28,12 +28,12 @@ extends CharacterBody3D
 @export var ability_2_cooldown : float = 10
 @export var ability_3_cooldown : float = 10
 
-@onready var spring_arm = $SpringArm3D
-@onready var pivot = $Pivot
+@onready var spring_arm: Node = $SpringArm3D
+@onready var pivot: Node = $Pivot
 
-var dashing = false
+var dashing: bool = false
 
-func regen_health(delta):
+func regen_health(delta: float) -> void:
 	if (current_health < max_health):
 		if (((delta * health_regen_rate) + current_health) > max_health):
 			current_health = max_health
@@ -41,7 +41,7 @@ func regen_health(delta):
 			current_health += (delta * health_regen_rate)
 			
 			
-func regen_mana(delta):
+func regen_mana(delta: float) -> void:
 	if (current_mana < max_mana):
 		if (((delta*mana_regen_rate) + current_mana) > max_mana):
 			current_mana = max_mana
@@ -49,7 +49,7 @@ func regen_mana(delta):
 			current_mana += (delta * mana_regen_rate)
 
 
-func regen_stamina(delta):
+func regen_stamina(delta: float) -> void:
 	if (current_stamina < max_stamina):
 		if (((delta * stamina_regen_rate) + current_stamina) > max_stamina):
 			current_stamina = max_stamina
@@ -57,30 +57,30 @@ func regen_stamina(delta):
 			current_stamina += (delta * stamina_regen_rate)
 			
 			
-func modify_health(amount: float):
+func modify_health(amount: float) -> void:
 	if current_health + amount > max_health: current_health = max_health
 	elif current_health + amount < 0: current_health = 0
 	else:
 		current_health += amount
 
 
-func modify_mana(amount: float):
+func modify_mana(amount: float) -> void:
 	if current_mana + amount > max_mana: current_mana = max_mana
 	elif current_mana + amount < 0: current_mana = 0
 	else:
 		current_mana += amount
 
 
-func modify_stamina(amount: float):
+func modify_stamina(amount: float) -> void:
 	if current_stamina + amount > max_stamina: current_stamina = max_stamina
 	elif current_stamina + amount < 0: current_stamina = 0
 	else:
 		current_stamina += amount
 		
 
-func load_ability(ability_name: String):
-	var scene = load("res://abilities/" + ability_name + "/" + ability_name + ".tscn")
-	var scene_node = scene.instantiate()
+func load_ability(ability_name: String) -> Node:
+	var scene: Resource = load("res://abilities/" + ability_name + "/" + ability_name + ".tscn")
+	var scene_node: Node = scene.instantiate()
 	add_child(scene_node)
 	return scene_node
 
@@ -89,7 +89,7 @@ func load_ability(ability_name: String):
 func get_input_vector() -> Vector3:
 	# this defines the input vector and we subtract move back from move forward 
 	# because the player controller starts facing -z
-	var input_vector = Vector3.ZERO
+	var input_vector: Vector3 = Vector3.ZERO
 	input_vector.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	input_vector.z = Input.get_action_strength("move_back") - Input.get_action_strength("move_forward")
 	return input_vector.normalized() if input_vector.length() > 1 else input_vector
@@ -98,12 +98,12 @@ func get_input_vector() -> Vector3:
 ## This function will calculate the direction from the input vector
 ## the direction is helpful for moving the player relative to its current postion
 func get_direction(input_vector: Vector3) -> Vector3:
-	var direction  = (input_vector.x * transform.basis.x) + (input_vector.z * transform.basis.z)
+	var direction: Vector3  = (input_vector.x * transform.basis.x) + (input_vector.z * transform.basis.z)
 	return direction
 	
 	
 ## This function takes the input vector and direction to apply movement to the player
-func apply_movement(input_vector: Vector3, direction: Vector3, delta: float):
+func apply_movement(input_vector: Vector3, direction: Vector3, delta: float) -> void:
 	if direction != Vector3.ZERO:
 		velocity.x = velocity.move_toward(direction * max_speed, acceleration * delta).x
 		velocity.z = velocity.move_toward(direction * max_speed, acceleration * delta).z
@@ -112,7 +112,7 @@ func apply_movement(input_vector: Vector3, direction: Vector3, delta: float):
 		
 		
 ## This function takes the direction of the player and uses it to apply friction
-func apply_friction(direction: Vector3, delta: float):
+func apply_friction(direction: Vector3, delta: float) -> void:
 	if direction == Vector3.ZERO:
 		if is_on_floor():
 			velocity = velocity.move_toward(Vector3.ZERO, friction * delta)
@@ -122,7 +122,7 @@ func apply_friction(direction: Vector3, delta: float):
 			
 			
 ## This function applies the jump_impulse to apply a jumping feature
-func jump():
+func jump() -> void:
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		velocity.y = jump_impulse
 	if Input.is_action_just_released("jump") and velocity.y > jump_impulse / 2:
@@ -130,14 +130,14 @@ func jump():
 		
 		
 ## This funnction applies gravity to the y position
-func apply_gravity(delta: float):
+func apply_gravity(delta: float) -> void:
 	velocity.y += gravity * delta
 	velocity.y = clamp(velocity.y, gravity, jump_impulse)
 	
 	
 ## This function add controller support for rotation of the player
-func apply_controller_rotation():
-	var axis_vector = Vector3.ZERO
+func apply_controller_rotation() -> void:
+	var axis_vector: Vector3 = Vector3.ZERO
 	axis_vector.x = Input.get_action_strength("look_right") - Input.get_action_strength("look_left")
 	axis_vector.y = Input.get_action_strength("look_down") - Input.get_action_strength("look_up")
 	

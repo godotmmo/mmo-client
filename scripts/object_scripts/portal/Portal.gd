@@ -2,7 +2,7 @@ extends Area3D
 
 @export var target_scene : String
 
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("enter"):
 		if target_scene == "":
 			print("Invalid target scene")
@@ -11,7 +11,7 @@ func _input(event):
 			next_scene()
 
 
-func next_scene():
+func next_scene() -> void:
 	var error = get_tree().change_scene_to_file(target_scene)
 	if error != OK:
 		print("Error changing scene")

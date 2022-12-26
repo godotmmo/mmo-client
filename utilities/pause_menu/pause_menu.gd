@@ -9,18 +9,18 @@ func _ready() -> void:
 	level_select_button.pressed.connect(level_select_menu)
 
 ## Plays animation before giving mouse control back to player
-func unpause():
+func unpause() -> void:
 	animator.play("Unpause")
 	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 ## Plays animation and locks players mouse while a menu is shown
-func pause():
+func pause() -> void:
 	animator.play("Pause")
 	get_tree().paused = true
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 ## Brings player back to level select screen
-func level_select_menu():
+func level_select_menu() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file("res://gui/level_select_screen.tscn")

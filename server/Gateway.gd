@@ -1,6 +1,6 @@
 extends Node
 
-var gateway_client = ENetMultiplayerPeer.new()
+var gateway_client: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var gateway_api: MultiplayerAPI = MultiplayerAPI.create_default_interface()
 
 var ip: String = "december-antique.at.ply.gg"
@@ -9,7 +9,7 @@ var port: int = 44122
 var username: String
 var password: String
 var new_account: bool = false
-var peer_id
+var peer_id: int
 
 var cert = load("res://resources/certification/X509_Certificate.crt")
 
@@ -19,14 +19,14 @@ func _ready():
 	pass
 	
 	
-func _process(_delta):
+func _process(_delta: float):
 	if !multiplayer.has_multiplayer_peer():
 		return
 	else:
 		multiplayer.poll()
 
 	
-func ConnectToServer(_username: String, _password: String, _new_account: bool):
+func ConnectToServer(_username: String, _password: String, _new_account: bool) -> void:
 	username = _username
 	password = _password
 	new_account = _new_account
@@ -46,21 +46,20 @@ func ConnectToServer(_username: String, _password: String, _new_account: bool):
 	gateway_api.connected_to_server.connect(_OnConnectionSucceeded)
 	
 	
-func _OnConnectionFailed():
+func _OnConnectionFailed() -> void:
 	print("Failed to connect to gateway server")
 	# re-enabled all button on the login screen if the request fails
 	get_node("/root/login_screen/Login/HBoxContainer/VBoxContainer/LoginButton").disabled = false
 	get_node("/root/login_screen/Login/HBoxContainer/VBoxContainer/CreateAccountButton").disabled = false
 	get_node("/root/login_screen/CreateAccount/HBoxContainer/VBoxContainer/Confirm").disabled = false
 	get_node("/root/login_screen/CreateAccount/HBoxContainer/VBoxContainer/Back").disabled = false
-	pass
 
 
-func _OnConnectionDisconnected(_server_id):
+func _OnConnectionDisconnected(_server_id: int) -> void:
 	print("Disconnected")
 	
 	
-func _OnConnectionSucceeded():
+func _OnConnectionSucceeded() -> void:
 	#print("Succesfully connected to gateway server id: %d" % server_id)
 	if new_account:
 		RequestCreateAccount()
@@ -69,7 +68,7 @@ func _OnConnectionSucceeded():
 
 
 @rpc(call_local)
-func LoginRequest(_username, _password):
+func LoginRequest(_username: String, _password: String) -> void:
 	#var peer_id = gateway.get_multiplayer_peer().get_unique_id()
 	peer_id = 1
 	print("Requesting login user. uid: " + str(peer_id))
@@ -79,7 +78,7 @@ func LoginRequest(_username, _password):
 
 
 @rpc
-func ReturnLoginRequest(result, token):
+func ReturnLoginRequest(result: bool, token: String) -> void:
 	print("results received")
 	# if valid login request, set server token and connect to game server
 	if result == true:
@@ -97,19 +96,19 @@ func ReturnLoginRequest(result, token):
 
 
 @rpc(call_local)
-func RequestCreateAccount():
+func RequestCreateAccount() -> void:
 	print("Requesting new account")
 	rpc_id(1, "CreateAccountRequest", username, password.sha256_text())
 	username = ""
 	password = ""
 	
 @rpc
-func CreateAccountRequest():
+func CreateAccountRequest() -> void:
 	# Needed for rpc checksum
 	pass
 	
 @rpc(call_remote)
-func ReturnCreateAccountRequest(results, message):
+func ReturnCreateAccountRequest(results: bool, message: int) -> void:
 	print("Results from create account request recieved")
 	if results == true:
 		print("Account created")

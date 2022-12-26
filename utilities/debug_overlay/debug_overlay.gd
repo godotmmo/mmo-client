@@ -6,7 +6,7 @@ extends CanvasLayer
 
 ## debug_values is the array that will store nested arrays of the values being added 
 ## to the overlay
-var debug_values = []
+var debug_values: Array = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,12 +15,12 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	var label_text = ""
+	var label_text: String = ""
 	
-	var fps = Engine.get_frames_per_second()
+	var fps: float = Engine.get_frames_per_second()
 	label_text += str("FPS: ", fps, "\n")
 	
-	var memory_used = OS.get_static_memory_usage()
+	var memory_used: int = OS.get_static_memory_usage()
 	label_text += str("Static Memory: ", String.humanize_size(memory_used), "\n")
 	
 	for value in debug_values:
@@ -40,5 +40,5 @@ func _process(_delta: float) -> void:
 ## [b]object[/b]: the object (node) that is the parent of the field being referenced[br]
 ## [b]value_ref[/b]: string of the field being referenced from the object[br]
 ## [b]is_method[/b]: boolean value to determine if the value being passed is a method[br]
-func add_value(value_name, object, value_ref, is_method):
+func add_value(value_name: String, object: Node, value_ref: String, is_method: bool) -> void:
 	debug_values.append([value_name, object, value_ref, is_method])

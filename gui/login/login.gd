@@ -1,26 +1,25 @@
 extends Control
 
 # UI state nodes
-@onready var login_screen = get_node("Login")
-@onready var create_account_screen = get_node("CreateAccount")
+@onready var login_screen: Node = get_node("Login")
+@onready var create_account_screen: Node = get_node("CreateAccount")
 # login nodes
-@onready var username_input = get_node("Login/HBoxContainer/VBoxContainer/Username")
-@onready var userpassword_input = get_node("Login/HBoxContainer/VBoxContainer/Password")
-@onready var login_button = get_node("Login/HBoxContainer/VBoxContainer/LoginButton")
-@onready var create_account_button = get_node("Login/HBoxContainer/VBoxContainer/CreateUsernameButton")
+@onready var username_input: Node = get_node("Login/HBoxContainer/VBoxContainer/Username")
+@onready var userpassword_input: Node = get_node("Login/HBoxContainer/VBoxContainer/Password")
+@onready var login_button: Node = get_node("Login/HBoxContainer/VBoxContainer/LoginButton")
+@onready var create_account_button: Node = get_node("Login/HBoxContainer/VBoxContainer/CreateUsernameButton")
 # create new account nodes
-@onready var create_username_input = get_node("CreateAccount/HBoxContainer/VBoxContainer/Username")
-@onready var create_password_input = get_node("CreateAccount/HBoxContainer/VBoxContainer/Password2")
-@onready var create_confirm_password_input = get_node("CreateAccount/HBoxContainer/VBoxContainer/ConfirmPassword")
-@onready var confirm_button = get_node("CreateAccount/HBoxContainer/VBoxContainer/Confirm")
-@onready var back_button = get_node("CreateAccount/HBoxContainer/VBoxContainer/Back")
+@onready var create_username_input: Node = get_node("CreateAccount/HBoxContainer/VBoxContainer/Username")
+@onready var create_password_input: Node = get_node("CreateAccount/HBoxContainer/VBoxContainer/Password2")
+@onready var create_confirm_password_input: Node = get_node("CreateAccount/HBoxContainer/VBoxContainer/ConfirmPassword")
+@onready var confirm_button: Node = get_node("CreateAccount/HBoxContainer/VBoxContainer/Confirm")
+@onready var back_button: Node = get_node("CreateAccount/HBoxContainer/VBoxContainer/Back")
 
 func _on_LoginButton_pressed():
-	print("pressed")
 	pass
 
 
-func _on_login_button_button_down():
+func _on_login_button_button_down() -> void:
 	if username_input.text == "" or userpassword_input.text == "":
 		print("Please provide valid username and password")
 	else:
@@ -32,17 +31,17 @@ func _on_login_button_button_down():
 		Gateway.ConnectToServer(username, password, false)
 
 
-func _on_create_username_button_pressed():
+func _on_create_username_button_pressed() -> void:
 	login_screen.hide()
 	create_account_screen.show()
 
 
-func _on_back_pressed():
+func _on_back_pressed() -> void:
 	create_account_screen.hide()
 	login_screen.show()
 
 
-func _on_confirm_pressed():
+func _on_confirm_pressed() -> void:
 	
 	if create_username_input.get_text() == "":
 		print("Please provide a valid username")
@@ -58,6 +57,6 @@ func _on_confirm_pressed():
 		print("Create username request sent")
 		confirm_button.disabled = true
 		back_button.disabled = true
-		var username = create_username_input.get_text()
-		var password = create_password_input.get_text()
+		var username: String = create_username_input.get_text()
+		var password: String = create_password_input.get_text()
 		Gateway.ConnectToServer(username, password, true)
