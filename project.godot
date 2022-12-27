@@ -27,6 +27,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Logger="*res://utilities/logger.gd"
 Server="*res://server/Server.gd"
 GameData="*res://server/GameData.gd"
 Gateway="*res://server/Gateway.gd"
