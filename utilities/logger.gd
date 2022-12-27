@@ -47,7 +47,7 @@ class Log:
 	func _log(level: String, message: String, function_name: String) -> void:
 		if function_name.is_empty():
 			function_name = current_function_name
-		var log_message: String = "Level: " + level + "Current Time: " + _get_current_time() + "Script Name: " + self.script_name + "Function Name: " + function_name
+		var log_message: String =  _get_current_time() + " | " + level + " | " + "[" + self.script_name + "]" + " [" + function_name + "] " + ">> " + message
 		var file_name: String = DEFAULT_LOG_PATH + Time.get_date_string_from_system() + DEFAULT_LOG_NAME + ".log"
 		if FileAccess.file_exists(file_name):
 			var file = FileAccess.open(file_name, FileAccess.READ_WRITE)
@@ -55,6 +55,7 @@ class Log:
 			file.store_line(log_message)
 		else:
 			var file = FileAccess.open(file_name, FileAccess.WRITE)
+			file.store_line("        TIME        | LEVEL | SCRIPT | FUNCTION | MESSAGE")
 			file.store_line(log_message)
 	
 	func _get_current_time() -> String:
