@@ -15,8 +15,11 @@ class Log:
 	var script_name = ""
 	var current_function_name = ""
 	
-	func _init(script_name: String) -> void:
-		self.script_name = script_name
+	func set_script_name(new_script_name: String) -> void:
+		script_name = new_script_name
+	
+	func _init(new_script_name: String) -> void:
+		set_script_name(new_script_name)
 	
 	func start(function_name: String) -> void:
 		current_function_name = function_name
