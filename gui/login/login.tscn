@@ -19,7 +19,7 @@ grow_vertical = 2
 script = ExtResource("1_vtd00")
 
 [node name="Login" type="NinePatchRect" parent="."]
-anchors_preset = 8
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -33,7 +33,7 @@ grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="Login"]
 z_index = -1
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -41,7 +41,7 @@ grow_vertical = 2
 color = Color(0.164706, 0.513726, 1, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Login"]
-anchors_preset = 13
+layout_mode = 0
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
@@ -52,18 +52,14 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Login/HBoxContainer"]
 custom_minimum_size = Vector2(350, 0)
-offset_right = 350.0
-offset_bottom = 525.0
+layout_mode = 2
 
 [node name="MarginContainer3" type="MarginContainer" parent="Login/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 60)
-offset_right = 350.0
-offset_bottom = 60.0
+layout_mode = 2
 
 [node name="Title" type="Label" parent="Login/HBoxContainer/VBoxContainer"]
-offset_top = 64.0
-offset_right = 350.0
-offset_bottom = 109.0
+layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Login Screen"
 label_settings = SubResource("LabelSettings_2srcn")
@@ -71,53 +67,38 @@ horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="Login/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 70)
-offset_top = 113.0
-offset_right = 350.0
-offset_bottom = 183.0
+layout_mode = 2
 
 [node name="UsernameTitle" type="Label" parent="Login/HBoxContainer/VBoxContainer"]
-offset_top = 187.0
-offset_right = 350.0
-offset_bottom = 213.0
+layout_mode = 2
 text = "Username:"
 
 [node name="Username" type="LineEdit" parent="Login/HBoxContainer/VBoxContainer"]
-offset_top = 217.0
-offset_right = 350.0
-offset_bottom = 248.0
+layout_mode = 2
 size_flags_stretch_ratio = 0.65
 
 [node name="PasswordTitle" type="Label" parent="Login/HBoxContainer/VBoxContainer"]
-offset_top = 252.0
-offset_right = 350.0
-offset_bottom = 278.0
+layout_mode = 2
 text = "Password:"
 
 [node name="Password" type="LineEdit" parent="Login/HBoxContainer/VBoxContainer"]
-offset_top = 282.0
-offset_right = 350.0
-offset_bottom = 313.0
+layout_mode = 2
 secret = true
 
 [node name="MarginContainer2" type="MarginContainer" parent="Login/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 30)
-offset_top = 317.0
-offset_right = 350.0
-offset_bottom = 347.0
+layout_mode = 2
 
 [node name="LoginButton" type="TextureButton" parent="Login/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(220, 55)
-offset_left = 65.0
-offset_top = 351.0
-offset_right = 285.0
-offset_bottom = 406.0
+layout_mode = 2
 size_flags_horizontal = 4
 texture_pressed = ExtResource("2_fm2lf")
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Login/HBoxContainer/VBoxContainer/LoginButton"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -130,7 +111,7 @@ vertical_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="Login/HBoxContainer/VBoxContainer/LoginButton"]
 z_index = -1
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -140,16 +121,13 @@ color = Color(0, 0, 0, 1)
 
 [node name="CreateUsernameButton" type="TextureButton" parent="Login/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(220, 55)
-offset_left = 65.0
-offset_top = 410.0
-offset_right = 285.0
-offset_bottom = 465.0
+layout_mode = 2
 size_flags_horizontal = 4
 ignore_texture_size = true
 stretch_mode = 0
 
 [node name="Label" type="Label" parent="Login/HBoxContainer/VBoxContainer/CreateUsernameButton"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -162,7 +140,7 @@ vertical_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="Login/HBoxContainer/VBoxContainer/CreateUsernameButton"]
 z_index = -1
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -172,7 +150,7 @@ color = Color(0, 0, 0, 1)
 
 [node name="CreateAccount" type="NinePatchRect" parent="."]
 visible = false
-anchors_preset = 8
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -186,7 +164,7 @@ grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="CreateAccount"]
 z_index = -1
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -194,7 +172,7 @@ grow_vertical = 2
 color = Color(0.164706, 0.513726, 1, 1)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CreateAccount"]
-anchors_preset = 8
+layout_mode = 0
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -207,19 +185,15 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CreateAccount/HBoxContainer"]
-offset_right = 350.0
-offset_bottom = 525.0
+layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="MarginContainer3" type="MarginContainer" parent="CreateAccount/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 60)
-offset_right = 350.0
-offset_bottom = 60.0
+layout_mode = 2
 
 [node name="Title" type="Label" parent="CreateAccount/HBoxContainer/VBoxContainer"]
-offset_top = 64.0
-offset_right = 350.0
-offset_bottom = 109.0
+layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Create New Account"
 label_settings = SubResource("LabelSettings_yeywv")
@@ -227,62 +201,43 @@ horizontal_alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="CreateAccount/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
-offset_top = 113.0
-offset_right = 350.0
-offset_bottom = 163.0
+layout_mode = 2
 
 [node name="UsernameTitle" type="Label" parent="CreateAccount/HBoxContainer/VBoxContainer"]
-offset_top = 167.0
-offset_right = 350.0
-offset_bottom = 193.0
+layout_mode = 2
 text = "Username:"
 
 [node name="Username" type="LineEdit" parent="CreateAccount/HBoxContainer/VBoxContainer"]
-offset_top = 197.0
-offset_right = 350.0
-offset_bottom = 228.0
+layout_mode = 2
 size_flags_stretch_ratio = 0.65
 
 [node name="PasswordTitle" type="Label" parent="CreateAccount/HBoxContainer/VBoxContainer"]
-offset_top = 232.0
-offset_right = 350.0
-offset_bottom = 258.0
+layout_mode = 2
 text = "Password:"
 
 [node name="ConfirmPassword" type="LineEdit" parent="CreateAccount/HBoxContainer/VBoxContainer"]
-offset_top = 262.0
-offset_right = 350.0
-offset_bottom = 293.0
+layout_mode = 2
 size_flags_stretch_ratio = 0.65
 
 [node name="ConfirmPasswordTitle" type="Label" parent="CreateAccount/HBoxContainer/VBoxContainer"]
-offset_top = 297.0
-offset_right = 350.0
-offset_bottom = 323.0
+layout_mode = 2
 text = "Confirm Password:"
 
 [node name="Password2" type="LineEdit" parent="CreateAccount/HBoxContainer/VBoxContainer"]
-offset_top = 327.0
-offset_right = 350.0
-offset_bottom = 358.0
+layout_mode = 2
 size_flags_stretch_ratio = 0.65
 
 [node name="MarginContainer4" type="MarginContainer" parent="CreateAccount/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 15)
-offset_top = 362.0
-offset_right = 350.0
-offset_bottom = 377.0
+layout_mode = 2
 
 [node name="Confirm" type="TextureButton" parent="CreateAccount/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(220, 55)
-offset_left = 65.0
-offset_top = 381.0
-offset_right = 285.0
-offset_bottom = 436.0
+layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="CreateAccount/HBoxContainer/VBoxContainer/Confirm"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -295,7 +250,7 @@ vertical_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="CreateAccount/HBoxContainer/VBoxContainer/Confirm"]
 z_index = -1
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -305,14 +260,11 @@ color = Color(0, 0, 0, 1)
 
 [node name="Back" type="TextureButton" parent="CreateAccount/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(220, 55)
-offset_left = 65.0
-offset_top = 440.0
-offset_right = 285.0
-offset_bottom = 495.0
+layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="Label" type="Label" parent="CreateAccount/HBoxContainer/VBoxContainer/Back"]
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
@@ -325,7 +277,7 @@ vertical_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="CreateAccount/HBoxContainer/VBoxContainer/Back"]
 z_index = -1
-anchors_preset = 15
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2

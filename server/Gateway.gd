@@ -34,7 +34,9 @@ func ConnectToServer(_username: String, _password: String, _new_account: bool) -
 	# This defines our 'network' as a client peer
 	gateway_client.create_client(ip, port)
 	
-	gateway_client.host.dtls_client_setup(cert, ip, false)
+	# dtls client setup
+	# var client_tls_options: TLSOptions = TLSOptions.client(cert)
+	# gateway_client.host.dtls_client_setup("147.185.221.180", client_tls_options)
 	
 	# This creates a new multiplayer api instance on the current path and allows
 	# for a secondary connection
@@ -50,7 +52,7 @@ func _OnConnectionFailed() -> void:
 	print("Failed to connect to gateway server")
 	# re-enabled all button on the login screen if the request fails
 	get_node("/root/login_screen/Login/HBoxContainer/VBoxContainer/LoginButton").disabled = false
-	get_node("/root/login_screen/Login/HBoxContainer/VBoxContainer/CreateAccountButton").disabled = false
+	get_node("/root/login_screen/Login/HBoxContainer/VBoxContainer/CreateUsernameButton").disabled = false
 	get_node("/root/login_screen/CreateAccount/HBoxContainer/VBoxContainer/Confirm").disabled = false
 	get_node("/root/login_screen/CreateAccount/HBoxContainer/VBoxContainer/Back").disabled = false
 
@@ -67,7 +69,7 @@ func _OnConnectionSucceeded() -> void:
 		LoginRequest(username, password)
 
 
-@rpc(call_local)
+@rpc("call_local")
 func LoginRequest(_username: String, _password: String) -> void:
 	#var peer_id = gateway.get_multiplayer_peer().get_unique_id()
 	peer_id = 1
@@ -95,7 +97,7 @@ func ReturnLoginRequest(result: bool, token: String) -> void:
 	gateway_api.disconnect("connected_to_server", _OnConnectionSucceeded)
 
 
-@rpc(call_local)
+@rpc("call_local")
 func RequestCreateAccount() -> void:
 	print("Requesting new account")
 	rpc_id(1, "CreateAccountRequest", username, password.sha256_text())
@@ -107,7 +109,7 @@ func CreateAccountRequest() -> void:
 	# Needed for rpc checksum
 	pass
 	
-@rpc(call_remote)
+@rpc("call_remote")
 func ReturnCreateAccountRequest(results: bool, message: int) -> void:
 	print("Results from create account request recieved")
 	if results == true:

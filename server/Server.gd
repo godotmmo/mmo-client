@@ -50,7 +50,7 @@ func _DetermineLatency() -> void:
 	DetermineLatency()
 
 	
-@rpc(call_local)
+@rpc("call_local")
 func FetchServerTime() -> void:
 	while not multiplayer.get_peers().has(1):
 		await get_tree().create_timer(1).timeout
@@ -62,12 +62,12 @@ func FetchServerTime() -> void:
 	get_parent().add_child(timer)
 
 
-@rpc(call_local)
+@rpc("call_local")
 func DetermineLatency() -> void:
 	rpc_id(1, "DetermineLatency", int(Time.get_unix_time_from_system() * 1000))
 	
 
-@rpc(call_remote)
+@rpc("call_remote")
 func ReturnLatency(client_time_msecs: int) -> void:
 	latency_array.append(int((int(Time.get_unix_time_from_system() * 1000) - client_time_msecs) / 2.0))
 	if latency_array.size() == 9:
@@ -86,14 +86,14 @@ func ReturnLatency(client_time_msecs: int) -> void:
 		latency_array.clear()
 
 
-@rpc(call_remote)
+@rpc("call_remote")
 func ReturnServerTime(server_time_msecs: int, client_time_msecs: int) -> void:
 	print("Return Server Time called")
 	latency_msecs = int((int(Time.get_unix_time_from_system() * 1000) - client_time_msecs) / 2.0)
 	client_clock_msecs = server_time_msecs + latency_msecs
 
 
-@rpc(call_local)
+@rpc("call_local")
 func FetchSkillData(skill_name: String, requester: int) -> void:
 	rpc_id(serverID, "FetchSkillData", skill_name, requester)
 	
@@ -136,7 +136,7 @@ func ReturnTokenVerificationResults(_player_id: int, result: bool) -> void:
 		get_node("/root/login_screen/NinePatchRect/HBoxContainer/VBoxContainer/LoginButton").disabled = false
 		
 		
-@rpc(any_peer)
+@rpc("any_peer")
 func SpawnNewPlayer(player_id: int, spawn_position: Vector3) -> void:
 	# check to see if the player id passed is the local player
 	if multiplayer.get_unique_id() != player_id:
@@ -156,7 +156,7 @@ func DespawnPlayer(_player_id: int) -> void:
 	get_node("/root/Map").DespawnPlayer(_player_id)
 	
 	
-@rpc(call_local, unreliable)
+@rpc("call_local", "unreliable")
 func SendPlayerState(player_state: Dictionary) -> void:
 	rpc_id(1, "ReceivePlayerState", player_state)
 	
@@ -167,7 +167,7 @@ func ReceivePlayerState(_player_state: Dictionary) -> void:
 	pass
 	
 	
-@rpc(call_remote, unreliable)
+@rpc("call_remote", "unreliable")
 func ReceiveWorldState(world_state: Dictionary) -> void:
 		if get_node("/root").has_node("Map"):
 			get_node("../Map").UpdateWorldState(world_state)
